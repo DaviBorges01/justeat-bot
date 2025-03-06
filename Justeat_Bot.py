@@ -1,6 +1,7 @@
 import os
 import psycopg2
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from fastapi import FastAPI
@@ -15,8 +16,11 @@ options.add_argument("--disable-dev-shm-usage")
 # Definir o caminho correto do ChromeDriver no Railway
 chrome_driver_path = "/usr/bin/chromedriver"
 
+# Criar o serviço do ChromeDriver corretamente
+service = Service(chrome_driver_path)
+
 # Iniciar o navegador com o caminho correto do ChromeDriver
-driver = webdriver.Chrome(executable_path=chrome_driver_path, options=options)
+driver = webdriver.Chrome(service=service, options=options)
 
 # Conectar ao Supabase
 DATABASE_URL = os.getenv("SUPABASE_DB_URL")  # Pegar do ambiente
