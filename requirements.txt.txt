@@ -1,5 +1,0 @@
-fastapi
-uvicorn
-selenium
-psycopg2-binary
-chromium-driver
