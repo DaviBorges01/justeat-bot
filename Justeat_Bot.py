@@ -3,6 +3,8 @@ import psycopg2
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from fastapi import FastAPI
 import uvicorn
 import os
@@ -36,8 +38,10 @@ def login_to_justeat(user_id):
     driver.get("https://couriers.just-eat.co.uk/app/login")
     time.sleep(3)  # Espera carregar
 
-    # Encontrar campos de login
-    email_field = driver.find_element(By.ID, "email")
+    # Encontrar campo de login usando o novo ID "username"
+    email_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.ID, "username"))
+    )
     password_field = driver.find_element(By.ID, "password")
     
     email_field.send_keys(email)
