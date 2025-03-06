@@ -18,13 +18,18 @@ driver = webdriver.Chrome(options=options)
 
 # Conectar ao Supabase
 DATABASE_URL = os.getenv("SUPABASE_DB_URL")  # Pegar do ambiente
-conn = psycopg2.connect(DATABASE_URL)
-cursor = conn.cursor()
+
+# Função para obter conexão com o banco de dados
+def get_db_connection():
+    return psycopg2.connect(DATABASE_URL)
 
 # Função para buscar credenciais do usuário no Supabase
 def get_user_credentials(user_id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
     cursor.execute("SELECT justeat_email, justeat_password FROM bot_settings WHERE user_id = %s", (user_id,))
     user_data = cursor.fetchone()
+    conn.close()  # Fecha a conexão corretamente
     return user_data if user_data else None
 
 # Função para logar na Just Eat
