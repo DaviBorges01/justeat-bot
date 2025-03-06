@@ -42,7 +42,9 @@ def login_to_justeat(user_id):
     email_field = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.ID, "username"))
     )
-    password_field = driver.find_element(By.ID, "password")
+    password_field = WebDriverWait(driver, 10).until(
+        EC.presence_of_element_located((By.ID, "password"))
+    )
     
     email_field.send_keys(email)
     password_field.send_keys(password)
