@@ -38,25 +38,29 @@ def login_to_justeat(user_id):
     driver.get("https://couriers.just-eat.co.uk/app/login")
     time.sleep(3)  # Espera carregar
 
-    # Encontrar campo de login usando o novo ID "username"
-    email_field = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "username"))
-    )
-    password_field = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "password"))
-    )
-    
-    email_field.send_keys(email)
-    password_field.send_keys(password)
-    password_field.send_keys(Keys.RETURN)
+    try:
+        # Encontrar campo de login usando o novo ID "username"
+        email_field = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "username"))
+        )
+        password_field = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "password"))
+        )
 
-    time.sleep(5)  # Espera login
+        email_field.send_keys(email)
+        password_field.send_keys(password)
+        password_field.send_keys(Keys.RETURN)
 
-    # Verificar se o login foi bem-sucedido
-    if "dashboard" in driver.current_url:
-        return {"status": "Login bem-sucedido!"}
-    else:
-        return {"status": "Falha no login"}
+        time.sleep(5)  # Espera login
+
+        # Verificar se o login foi bem-sucedido
+        if "dashboard" in driver.current_url:
+            return {"status": "Login bem-sucedido!"}
+        else:
+            return {"status": "Falha no login"}
+
+    except Exception as e:
+        return {"error": str(e)}
 
 # Criar API com FastAPI
 app = FastAPI()
