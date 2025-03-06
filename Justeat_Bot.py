@@ -1,18 +1,22 @@
-import time
+import os
 import psycopg2
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from fastapi import FastAPI
 import uvicorn
-import os
 
 # Configuração do Selenium (modo headless para rodar sem abrir o navegador)
 options = webdriver.ChromeOptions()
 options.add_argument("--headless")  # Executa sem abrir o navegador
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
-driver = webdriver.Chrome(options=options)
+
+# Definir o caminho correto do ChromeDriver no Railway
+chrome_driver_path = "/usr/bin/chromedriver"
+
+# Iniciar o navegador com o caminho correto do ChromeDriver
+driver = webdriver.Chrome(executable_path=chrome_driver_path, options=options)
 
 # Conectar ao Supabase
 DATABASE_URL = os.getenv("SUPABASE_DB_URL")  # Pegar do ambiente
